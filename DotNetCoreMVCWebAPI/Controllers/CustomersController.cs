@@ -123,5 +123,32 @@ namespace DotNetCoreMVCWebAPI.Controllers
             }
         }
         #endregion
+
+        #region DELETE
+        //DELETE: api/customers/
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                Customer oldCustomer = db.Customer.FirstOrDefault(c => c.Id == id);
+                if (oldCustomer != null)
+                {
+                    db.Customer.Remove(oldCustomer);
+                    db.SaveChanges();
+
+                    return Ok($"Customer with id {id} has been succesfully deleted");
+                }
+                else
+                {
+                    return NotFound($"No Customer found with id {id}");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"O oh, something ({e.Message}) went wrong");
+            }
+        }
+        #endregion
     }
 }
