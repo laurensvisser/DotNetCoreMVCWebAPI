@@ -91,5 +91,37 @@ namespace DotNetCoreMVCWebAPI.Controllers
             }
         }
         #endregion
+
+        #region PUT
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]Customer customer)
+        {
+            try
+            {
+                Customer oldCustomer = db.Customer.FirstOrDefault(c => c.Id == id);
+                if (oldCustomer != null)
+                {
+                    oldCustomer.FirstName = customer.FirstName ?? oldCustomer.FirstName;
+                    oldCustomer.LastName = customer.LastName ?? oldCustomer.LastName;
+                    oldCustomer.City = customer.City ?? oldCustomer.City;
+                    oldCustomer.Country = customer.Country ?? oldCustomer.Country;
+                    oldCustomer.Phone = customer.Phone ?? oldCustomer.Phone;
+
+                    db.Customer.Update(oldCustomer);
+                    db.SaveChanges();
+
+                    return Ok(oldCustomer);
+                }
+                else
+                {
+                    return NotFound("No Customer found...");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"O oh, something ({e.Message}) went wrong");
+            }
+        }
+        #endregion
     }
 }
