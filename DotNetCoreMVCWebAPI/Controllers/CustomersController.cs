@@ -58,5 +58,38 @@ namespace DotNetCoreMVCWebAPI.Controllers
             }
         }
         #endregion
+
+        #region POST
+        //POST: api/Customers/
+        [HttpPost]
+        public IActionResult Post([FromBody]Customer customer)
+        {
+            try
+            {
+                if (customer != null)
+                {
+                    Customer newCustomer = new Customer()
+                    {
+                        FirstName = customer.FirstName,
+                        LastName = customer.LastName,
+                        City = customer.City,
+                        Country = customer.Country,
+                        Phone = customer.Phone
+                    };
+                    db.Customer.Add(newCustomer);
+                    db.SaveChanges();
+                    return Created(Url.Link("GetCustomer", new { id = newCustomer.Id }), newCustomer);
+                }
+                else
+                {
+                    return NotFound("No Customer info retrieved...");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"O oh, something ({e.Message}) went wrong");
+            }
+        }
+        #endregion
     }
 }

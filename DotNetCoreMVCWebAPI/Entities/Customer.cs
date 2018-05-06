@@ -18,6 +18,7 @@ namespace DotNetCoreMVCWebAPI.Entities
         public string Country { get; set; }
         public string Phone { get; set; }
 
+        [JsonIgnore]
         public ICollection<Order> Order { get; set; }
     }
 }
