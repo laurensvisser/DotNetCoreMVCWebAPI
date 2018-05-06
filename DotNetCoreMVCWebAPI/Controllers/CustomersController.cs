@@ -27,9 +27,26 @@ namespace DotNetCoreMVCWebAPI.Controllers
         {
             try
             {
-                var customers = db.Customer
-                                .Select(c => c)
-                                .ToList();
+                var customers =
+                        db.Customer
+                        .Select(c => new
+                        {
+                            Klantnummer = c.Id,
+                            Naam = $"{c.FirstName} {c.LastName}",
+                            Adres = $"{c.City}, ({c.Country})",
+                            Bestellingen = c.Order.Select(o => new
+                            {
+                                Nummer = o.OrderNumber,
+                                Datum = ((DateTime)o.OrderDate).ToString("D"),
+                                Items = o.OrderItem.Select(oi => new
+                                {
+                                    Produkt = oi.Product.ProductName,
+                                    Prijs = oi.Product.UnitPrice,
+                                    Beschikbaar = oi.Product.IsDiscontinued ? "Niet meer leverbaar" : "Beschikbaar"
+                                }).ToList()
+                            }).ToList()
+                        }).ToList();
+
                 return Ok(customers);
             }
             catch (Exception e)
@@ -58,5 +75,6 @@ namespace DotNetCoreMVCWebAPI.Controllers
             }
         }
         #endregion
+
     }
 }
