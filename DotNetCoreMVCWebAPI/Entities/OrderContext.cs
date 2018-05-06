@@ -12,7 +12,7 @@ namespace DotNetCoreMVCWebAPI.Entities
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
 
-        public OrderContext(DbContextOptions<DbContext> options) : base(options)
+        public OrderContext(DbContextOptions<OrderContext> options) : base(options)
         {
 
         }

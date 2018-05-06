@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DotNetCoreMVCWebAPI.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetCoreMVCWebAPI.Controllers
 {
@@ -26,9 +27,9 @@ namespace DotNetCoreMVCWebAPI.Controllers
         {
             try
             {
-                List<Customer> customers = db.Customer
-                                            .Select(c => c)
-                                            .ToList();
+                var customers = db.Customer
+                                .Select(c => c)
+                                .ToList();
                 return Ok(customers);
             }
             catch (Exception e)
