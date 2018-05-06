@@ -66,7 +66,7 @@ namespace DotNetCoreMVCWebAPI.Controllers
         {
             try
             {
-                if (customer != null)
+                if (customer != null && ModelState.IsValid)
                 {
                     Customer newCustomer = new Customer()
                     {
@@ -82,7 +82,7 @@ namespace DotNetCoreMVCWebAPI.Controllers
                 }
                 else
                 {
-                    return NotFound("No Customer info retrieved...");
+                    return NotFound($"No correct Customer info retrieved. Model is {ModelState.ValidationState}");
                 }
             }
             catch (Exception e)
